@@ -1,0 +1,43 @@
+@import url("global.css");
+
+
+
+.alerta-wrapper{
+    box-shadow: 0 0 40px 5px rgba(227,55,46,0.25);
+    background-color: var(--secondary);
+    border: 1px solid rgba(227,55,46,0.25);
+}
+
+i.alerta {
+    color: var(--accent-red);
+    font-size: 5em;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 165px;
+    height: 165px;
+
+    border-radius: 50%;
+
+    background: radial-gradient(circle, var(--accent-red-darker), transparent 70%);
+}
+
+
+
+.alerta-wrapper.confirmaRegistro{
+    background-color: var(--secondary);
+    box-shadow: 0 0 40px 5px  rgba(46, 124, 227, 0.13);
+    border: 1px solid rgba(46, 124, 227, 0.25);
+}
+
+.confirmaRegistro i.alerta {
+    color: var(--accent-blue);
+    background: radial-gradient(circle, var(--accent-blue-darker), transparent 70%);
+}
+/* 
+.alerta-wrapper.confirmaRegistro form {
+    display:flex;
+    gap: 1rem;
+} */

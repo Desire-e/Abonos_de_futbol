@@ -1,0 +1,33 @@
+@import url("global.css");
+
+
+/* Envoltorio del ticket */
+.wrapper-ticket{
+    box-shadow: 0 0 40px 5px rgba(227,55,46,0.25);
+    background-color: var(--secondary);
+    border: 1px solid rgba(227,55,46,0.25);
+}
+
+
+
+.ticket-header > .logo{
+    /* min-width: 120px;
+    max-width: 100px; */
+
+    width: 100%;       /* O un valor fijo */
+    min-height: 100px;     /* Altura fija requerida */
+    object-fit: contain; /* Muestra toda la imagen, dejando espacios vacíos si es necesario */    
+}
+
+.ticket-header > div {
+    width: fit-content;
+    align-self: center;
+}
+
+
+
+.ticket-body .detalle-header { opacity:0.7; }
+
+.tarifa-especial { color: var(--accent-blue); }
+
+

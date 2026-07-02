@@ -1,0 +1,96 @@
+@import url("global.css");
+
+/* HEADER */
+/* #mainNav{
+    position: sticky;
+    width: 100%;
+    z-index: 1000;
+}
+.mainNav-solid{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: var(--primary);
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.logo{ max-width: 80px; }
+ */
+
+
+/* contenido main */
+/* main{ margin: 3em auto; }
+@media (max-width: 768px) {
+    main { 
+        margin: 5em auto;
+    }
+} */
+
+
+/* ============= */
+/* FORMULARIO */
+/* ============= */
+
+/* Inputs */
+.form-control, .form-select {
+    background-color: var(--secondary);
+    color: var(--txt-primary);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+.form-control:focus, .form-select:focus {
+    background-color: var(--secondary);
+    color: var(--txt-primary);
+    border-color: var(--accent-red);
+    box-shadow: 0 0 0 0.2rem rgba(227,55,46,0.25);
+}
+
+input[type="date"] { color-scheme: dark; }
+
+.form-check-input:checked {
+    background-color: var(--accent-red);
+    border-color: var(--accent-red);
+}
+.form-check-input:focus {
+    border-color: var(--accent-red);
+    box-shadow: 0 0 0 0.2rem rgba(227,55,46,0.25);
+}
+
+/* Autofill - Chrome, Edge, Safari */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+select:-webkit-autofill,
+textarea:-webkit-autofill {
+    -webkit-text-fill-color: var(--txt-primary) !important;
+    transition: background-color 9999s ease-in-out 0s;
+    box-shadow: 0 0 0px 1000px var(--secondary) inset !important;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+input:-webkit-autofill:focus {
+    border-color: var(--accent-red);
+    box-shadow: 0 0 0 0.2rem rgba(227,55,46,0.25),
+                0 0 0px 1000px var(--secondary) inset !important;
+}
+
+/* envoltorio de formularios */
+.wrapper-compra {
+    box-shadow: 0 0 40px 5px rgba(227,55,46,0.25);
+    background-color: var(--secondary);
+    border: 1px solid rgba(227,55,46,0.25);
+}
+
+/* ============= */
+/* FORMULARIO */
+/* Versión admin */
+/* ============= */
+
+.form-control.admin:focus, .form-control.admin:active { 
+    box-shadow: 0 0 0 0.2rem rgba(46, 124, 227, 0.25); 
+    border-color: var(--accent-blue-darker);
+}
+
+.wrapper-admin {
+    box-shadow: 0 0 40px 5px  rgba(46, 124, 227, 0.13);
+    background-color: var(--secondary);
+    border: 1px solid rgba(46, 124, 227, 0.25);
+}

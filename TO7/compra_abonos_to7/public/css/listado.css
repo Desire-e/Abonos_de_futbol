@@ -1,0 +1,39 @@
+@import url("global.css");
+
+/* main{ 
+    margin: 3em auto;
+}
+@media (max-width: 768px) {
+    main { 
+        margin: 5em auto;
+    }
+} */
+
+
+/* TABLA */
+
+.table {
+    --bs-table-bg: var(--secondary);
+    --bs-table-striped-bg: rgba(255,255,255,0.03);
+    --bs-table-hover-bg: rgba(255,255,255,0.06);
+    --bs-table-color:  var(--txt-primary);
+    --bs-border-color: rgba(255,255,255,0.08);
+
+    vertical-align: middle;
+}
+
+
+
+#tablaTipoAbonos{
+    margin-top: 2rem;
+    max-width: 900px;
+}
+
+/* icon medalla */
+td i.tribuna, i.preferencia, i.fondo{ font-size: 3em; }
+td img { width: 3rem; }
+
+/* icon datos abonado */
+td i{ font-size: 1rem; }
+
+
