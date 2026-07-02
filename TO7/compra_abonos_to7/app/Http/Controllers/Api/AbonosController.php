@@ -317,42 +317,6 @@ class AbonosController extends Controller {
 
 
 
-    // LOGIN (SANCTUM) 
-
-    /** Manda registros de los abonos comprados para panel admin **/
-    // necesita usuario autentificado - middleware en /routes/api.php
-    /*
-    public function listado() {
-        try{
-            // Borra token anterior para recrearlo 
-            // (mantener sesión activa, evitar uso fraudulento de tokens)
-            Auth::user()->tokens()->delete();
-            
-            // manda abonos y tipos de abono
-            $abonos = Abono::orderByDesc('asiento')->get();
-
-            return response()->json([
-                'status' => true,
-                'data' => $abonos,
-                'message' => null,
-                'errors' => null,
-                'token' => Auth::user()->createToken("API_TOKEN")->plainTextToken
-            ], 200);
-
-        } 
-        catch (\Exception $e) {
-            return response()->json([
-                'status' => false,
-                'data' => null,
-                'message' => null,
-                'errors' => $e->getMessage()
-            ], 500);
-        }
-    }*/
-
-
-
-
 
 
     /** ------------- FUNCIONES AUXILIARES: campos autoset ------------- **/
@@ -442,54 +406,3 @@ class AbonosController extends Controller {
     }
 
 }
-
-
-
-/*
-1. FORMATO DATOS EN JSON: 
-
-En el JSON, al decodificarlo no todo se convierte en string
-Respuesta: 
-return response()->json([
-    'id' => 5,
-    'nombre' => 'Juan',
-    'precio' => 19.99,
-    'activo' => true
-]);
-
-JSON de respuesta:
-{
-"id": 5, -- int
-"nombre": "Juan", -- string
-"precio": 19.99, -- float
-"activo": true -- boolean
-}
-
-* En Laravel, Eloquent suele devolver números como números, pero algunos campos 
-(como decimal) pueden venir como string
-Asegura tipos correctos en cada campo:
-protected $casts = [
-    'precio' => 'float',
-];
-
-
-2. FORMATO JSON FECHAS:
-Las fechas (Carbon) se convierten en string en JSON
-JSON no tiene tipo "fecha"
-
-{
-"created_at": "2026-03-25T10:30:00.000000Z"
-}
-
-
-Si necesitas trabajar con la fecha desde cliente:
-Forma 1
-$fecha = new DateTime($data['created_at']);
-Forma 2
-$timestamp = strtotime($data['created_at']);
-
-Dar formato desde API (controller):
-return response()->json([ 'fecha' => $abono->created_at->format('d/m/Y H:i') ]);
-Dar formato desde API (model):
-protected $casts = [ 'created_at' => 'datetime:d/m/Y H:i', ];
-*/

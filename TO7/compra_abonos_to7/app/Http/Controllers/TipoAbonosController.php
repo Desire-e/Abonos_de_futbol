@@ -19,21 +19,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 // Validar peticiones tipo API (en JSON) * para AJAX / API
 use Illuminate\Support\Facades\Validator;
-/*
-Peticiones JSON (tipo API) -- Validator::make()
-- Porque no requiere redirecciones (redirect()->back())
-- El cliente espera respuesta JSON siempre
-- Da control total sobre la respuesta HTTP (formato del JSON, 
-  status code)
-
-Peticiones HTTP normales (web) -- $request->validate()
-- Método pensado para aplicaciones web con Blade.
-- Hace redirecciones
-- Guarda errores en sesión
-- Guarda inputs (old())
-Internamente usa el mismo sistema de Validator, pero con un 
-“handler automático” para web.
-*/
 
 
 class TipoAbonosController extends Controller {

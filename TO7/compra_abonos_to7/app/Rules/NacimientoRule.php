@@ -29,14 +29,6 @@ class NacimientoRule implements ValidationRule {
             return;
         }
 
-        // Si usara DateTime de PHP:
-        // $fecha = DateTime::createFromFormat('Y-m-d', $value); // Del html viene formato yyyy-mm-dd
-        // if ($fecha === false) {
-        //     $fail('La :attribute no es válida');
-        //     return;
-        // }
-
-
         
         /* Calcular edad */
         $edad = $fecha->age; // Carbon tiene propiedad age para años completos
@@ -44,13 +36,6 @@ class NacimientoRule implements ValidationRule {
         if ($edad < 4 || $edad > 85) {
             $fail('La edad debe ser mayor a 4 años y menor a 85 años.');
         }
-
-        // Si usara DateTime de PHP:
-        // Comprueba edad
-        // $edad = (new DateTime())->diff($fecha)->y;  // diferencia en años completos entre dos objetos DateTime
-        // if ($edad < 4 || $edad > 85) {
-        //     $fail('La edad debe ser mayor a 4 años y menor a 85 años.');
-        // }
 
     }
 
