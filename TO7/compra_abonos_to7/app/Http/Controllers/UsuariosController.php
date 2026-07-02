@@ -13,15 +13,6 @@ use Illuminate\Support\Facades\Auth;
 login, logout, comprobar si hay usuario autenticado, acceder al usuario actual */
 
 
-/* 
-PREVIAMENTE: hay que cambiar /config/auth.php para que funcione Auth 
-en los modelos "Authenticatable":
-    'providers' => [
-        'users' => [ ... \Users::class
-Por tu Usuario::class (el modelo)
-*/
-
-
 class UsuariosController extends Controller{
 
     /** Formulario de login **/
