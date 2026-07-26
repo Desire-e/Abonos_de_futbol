@@ -140,3 +140,8 @@ También puedes iniciar sesión con una cuenta de Google una vez configurado OAu
 ## Autor
 
 **Desire-e** — [GitHub](https://github.com/Desire-e)
+
+ 
+## Licencia
+ 
+Este proyecto se comparte con fines educativos y de portfolio.
