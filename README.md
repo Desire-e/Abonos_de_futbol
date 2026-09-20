@@ -3,7 +3,7 @@
 Aplicación web desarrollada con **PHP** y **Laravel 12** para la gestión y compra de abonos de fútbol.
 Proyecto práctico del módulo *Desarrollo Web en Entorno Servidor*, que demuestra el manejo de un backend completo: autenticación, generación de PDFs, validaciones personalizadas e interacción dinámica con AJAX y jQuery.
 
-
+---
 ## Funcionalidades
  
 - **Compra de abono de fútbol**: formularios, token CSRF, gestión de cookies, vistas Blade.
@@ -14,26 +14,12 @@ Proyecto práctico del módulo *Desarrollo Web en Entorno Servidor*, que demuest
 - **Validación**: componentes y reglas de validación personalizadas.
 - **AJAX + DataTables**: interacción dinámica en secciones del panel de administración, como la creación y el listado de tipos de abonos.
 
-
-## Tecnologías utilizadas
- 
-- PHP 8.2
-- Laravel 12
-- MySQL
-- Blade
-- JavaScript
-- jQuery
-- AJAX
-- DataTables
-- DomPDF
-- Google OAuth 2.0
-
-
+---
 ## Demo
  
 Próximamente. Mientras tanto, puedes probar la instalación en entorno local siguiendo los pasos a continuación.
 
-
+---
 ## Tecnologías utilizadas
 
 - PHP 8.2
@@ -47,12 +33,8 @@ Próximamente. Mientras tanto, puedes probar la instalación en entorno local si
 - DomPDF
 - Google OAuth 2.0
 
-## Demo
-
-Próximamente. Mientras tanto, puede probar la **Instalación para pruebas en entorno local.**
-
-
-## Instalación para pruebas en entorno local
+---
+## Instalación en entorno local
  
 ### Requisitos
 - PHP 8.2.12 o superior
@@ -117,7 +99,7 @@ Por motivos de seguridad, las credenciales de Google no se incluyen en el reposi
    GOOGLE_CLIENT_SECRET=...
 ```
 
-
+---
 ## Cómo usarla
 
 Despliega el proyecto en un servidor compatible con PHP (Apache, Nginx, Laragon, XAMPP, etc.) y accede a la URL correspondiente según tu configuración.
@@ -136,7 +118,7 @@ Para acceder al panel de administración mediante usuario y contraseña, usa las
  
 También puedes iniciar sesión con una cuenta de Google una vez configurado OAuth 2.0.
 
-
+---
 ## Autor
 
 **Desire-e** — [GitHub](https://github.com/Desire-e)
