@@ -71,136 +71,119 @@ class TipoAbonosController extends Controller {
      * */
     public function getListadoTipoAbonos(Request $request){
 
+        // número de registros totales
+        $recordsTotal = TipoAbono::count();
+        // query builder
+        $query = TipoAbono::query();
 
-        /** 1) BÚSQUEDA POR DESCRIPCION - Construcción del WHERE **/
-        // Datatables manda: 
-        // search[value]="..." -- termino de busqueda
-        // columns[0][data, name, searchable, ordenable, ...] -- info de cada columna
-        // columns[0]['searchable']=true -- si es buscable una columna
-        
-        $where = '';
 
-        // Si Datatables envió una busqueda (input de barra buscadora)
-        if(!empty($request->search['value'])) {
+        /*** 1) COMPROBAR BUSCABLES Y ORDENABLES ***/
+        $colBuscables  = [];
+        $colOrdenables = [];
 
-            $stringAdded = false; // indica que inicialmente no se añadió una consulta WHERE hacia una columna
-            $where.= 'WHERE ';
+        // Datatables manda info de cada columna: columns[0][data, name, searchable, ordenable, ...]  
+        for ($i = 0; $i < count($request->columns); $i++) {
 
+            // Parseo de string a bool, ya que se recibe: columns[0][searchable] = 'true'
+            $searchable = json_decode($request->columns[$i]['searchable']);
+            $orderable = json_decode($request->columns[$i]['orderable']);
             
-            // Revisa las columnas de DataTables que sean buscables
-            for ($i = 0; $i < count($request->columns); $i++) {
+            if ($searchable) { array_push($colBuscables, $request->columns[$i]['name']); }
+            if ($orderable) { array_push($colOrdenables, $request->columns[$i]['name']); }
+        }
+        
+        
+        /*** 2) BÚSQUEDA - construcción de WHERE ***/
+        // Datatables manda: 
+        // search[value]="..."  (termino de busqueda)
+        // columns[0]['searchable']=true    (si la columna es buscable)
+        $busqueda = $request->search['value'];
 
-                // json_decode() porque: 
-                // - Datatables manda bool      columns[0][searchable] = true
-                // - Laravel obtiene string     columns[0][searchable] = 'true'
-                // - Hay que convertir strings a bool     json_decode("false") === false
-                $searchable = json_decode($request->columns[$i]['searchable']);
-                
-                if ($searchable) {
-                    // si se añadió consulta WHERE para una column
-                    // primero añade OR para añadir siguiente consulta a otra column
-                    if ($stringAdded) { $where.= ' OR '; }
+        if (!empty($busqueda)) {
+            // Si es usuario introduce %, _ ó \, se escapa (sql no lo tendrá en 
+            // cuenta con el significado especial que tiene)
+            $like = '%' . addcslashes($busqueda, '%_\\') . '%';
 
-                    // añade 'WHERE nombreCol LIKE '%'termino'%''
-                    $where.= $request->columns[$i]['name'] .' LIKE \'%'. $request->search['value'] .'%\'';
-                    
-                    // Indica que ya hay una consulta a una columna añadida, antes de la siguiente
-                    $stringAdded = true;
-
-                    /* 
-                    Para la siguiente iteración de columnas, hará:
-                    'WHERE nombreCol LIKE '%'termino'%'' . 
-                    ' OR ' . 
-                    'WHERE nombreCol2 LIKE '%'termino2'%''
-                    */
+            $query->where(
+                function ($innerJoinQuery)      // Condiciones de where
+                use ($colBuscables, $like) {    // Variables externas a usar
+                    foreach ($colBuscables as $col) {
+                        $innerJoinQuery->orWhere($col, 'LIKE', $like);
+                    }        
                 }
-                
-            }
+            );
         }
 
+        // número de registros filtrados
+        $recordsFiltered = (clone $query)->count();
 
 
-        /** 2) ORDENACIÓN POR DESCRIPCIÓN - Construcción del ORDER BY **/
+        /*** 3) ORDENACIÓN - construcción de ORDER BY ***/
         // Datatables manda:
         // order[0][column]=1
         //   order[0] -- primera regla de ordenacion
         //   [column]=1 -- index de columna usada como criterio de orden 
         // order[0][dir]=asc -- dirección de orden (asc/desc)
-
+        
         // Obtiene indice de columna usada como regla de ordenación
         $indexCol = $request->order[0]['column'];
+        
         // Obtiene nombre de la columna
         $nameCol = $request->columns[$indexCol]['name'];
+
+        // Comprueba si es ordenable
+        if (!in_array($nameCol, $colOrdenables)) $nameCol = 'descripcion';
         
+
         // Obtiene dirección de orden
         $direccion = $request->order[0]['dir'];
 
-        $orderBy = 'ORDER BY ' . $nameCol . ' ' . $direccion;
+        $query->orderBy($nameCol, $direccion);
 
 
-
-        /** 3) PAGINACIÓN - Construcción del LIMIT **/
+        /*** 4) PAGINACIÓN - Construcción de LIMIT ***/
         // Datatables manda:
         // start=0     desde que fila empieza (offset) 
         // length=10   cuantas filas traer (limit)
 
-        $paginacion = '';
+        // numero de filas a traer
+        $length = (int) $request->length;
+        // empezando desde el index de la fila...
+        $start  = (int) $request->start;
         
         // Si no se indica sin paginación (length != -1)
-        if ($request->length != -1) {
-            $paginacion .= 
-            // numero de filas a traer
-            'LIMIT ' . $request->length . 
-            // empezando desde el index de la fila...
-            ' OFFSET ' . $request->start;
-        }
+        if ($length !== -1) $query->offset($start)->limit($length);
 
 
+        /*** 5) EJECUTAR CONSULTA ***/
 
-        /** 4) EJECUTAR CONSULTA **/
-        $tipoAbonos = DB::select('SELECT * FROM tipo_abonos '. $where .' '. $orderBy .' '. $paginacion);
-
-
-
-        /** 5) IMPRESCINDIBLE PARA DATATABLES CON SERVER-SIDE **/
-
-        // Nº de registros filtrados
-        $recordsFiltered = count($tipoAbonos);
-        // Nº de registros totales en la BD
-        $recordsTotal = DB::select('SELECT COUNT(id) as recordsNum FROM tipo_abonos')[0]->recordsNum;
-        
+        $tipoAbonos = $query->get();
 
         
-        /** 6) Mandar respuesta (datos trabajados) **/
-        
+        /** 6) MANDAR RESPUESTA - datos obtenidos de consulta ***/
+
         $datos = [];
 
-        foreach($tipoAbonos as $tipo) {
-            $fila = [];
-            
-            $fila['id']=$tipo->id;
-            $fila['descripcion']=$tipo->descripcion;
-            $fila['precio']=$tipo->precio;
-            $fila['codigo']=$tipo->codigo;
-            // pasa binario a serializado para mandar en el JSON
-            $fila['icono']=base64_encode($tipo->icono);
-
-            $datos[]=$fila;
-            // $datos = [
-            //      ['id'=>'...', 'descripcion'=>'...',  ...], 
-            //      [ ...]
-            // ];
+        foreach ($tipoAbonos as $ta) {
+            $datos[] = [
+                'id' => $ta->id,
+                'descripcion' => $ta->descripcion,
+                'precio' => $ta->precio,
+                'codigo' => $ta->codigo,
+                'icono' => base64_encode($ta->icono),
+            ];
         }
-        
-        return response()->json([
-            // Datatables manda:
-            // draw=1 -- Contador de peticiones AJAX
-            'draw' => $request->draw, 
+        // $datos = [
+        //      ['id'=>'...', 'descripcion'=>'...',  ...], 
+        //      [ ...]
+        // ];
 
-            'recordsTotal' => $recordsTotal, 
-            'recordsFiltered' => $recordsFiltered, 
-            
-            'data' => $datos
+        return response()->json([
+            // Datatables manda: draw=1 -- Contador de peticiones AJAX
+            'draw'            => $request->draw,
+            'recordsTotal'    => $recordsTotal,
+            'recordsFiltered' => $recordsFiltered,
+            'data'            => $datos,
         ]);
     }
 
