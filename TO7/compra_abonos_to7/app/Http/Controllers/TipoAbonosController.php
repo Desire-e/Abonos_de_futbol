@@ -46,7 +46,7 @@ class TipoAbonosController extends Controller {
      * Si no existe, manda mensaje
      * */
     public function deleteListadoTipoAbonos(Request $request){
-        if(Auth::check() == false) { return redirect()->route('abonos.prohibido'); }
+        if(Auth::check() == false) return redirect()->route('abonos.prohibido');
 
         $tipoAbono = TipoAbono::find($request->idTipoAbono);
         
@@ -70,6 +70,8 @@ class TipoAbonosController extends Controller {
      * - Laravel hace paginación, ordenación, búsqueda en BD
      * */
     public function getListadoTipoAbonos(Request $request){
+
+        if (!Auth::check()) return redirect()->route('abonos.prohibido');
 
         // número de registros totales
         $recordsTotal = TipoAbono::count();
