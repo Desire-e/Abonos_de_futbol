@@ -86,8 +86,6 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `username`, `password`, `google_id`) VALUES
-('019e0263-82b6-70a5-acab-57b827b0d92a', 'admin@example.com', '$2y$12$Ho2k9dXQ1HqXetxIzZh/euXC8NyRHdgjUwB.p55SZtt/Tosg19thm', 'REDACTED'),
-('019eeed5-55a6-7339-ae1b-9b5c5b7f3c34', 'user@example.com', '$2y$12$t9VRUoh3GveacbATsZ5ez.WmwVw0d0C4zx8QYaX0P65i25.tA8sXK', 'REDACTED'),
 ('754d60aa-28f0-4ea2-a365-dc3b4663a787', 'uda', '$2y$12$trteRfAyiroBUOKeBJVXk.8QjrqjyoCPfYT/jo23b0USzRo88Ou/S', NULL);
 
 --
